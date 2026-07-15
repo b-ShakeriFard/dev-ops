@@ -1,4 +1,4 @@
-```markdown
+
 # Chapter 1 – Linux Command Line Interface (CLI)
 
 ## Introduction
@@ -69,5 +69,4 @@ The Linux Command Line Interface (CLI) is the primary interface used by Linux sy
 ## Conclusion
 
 The commands presented in this chapter represent the core tools that Linux administrators use on a daily basis. Individually they perform simple tasks, but when combined through pipes, redirection, shell scripting, and automation, they become a powerful toolkit for managing Linux systems efficiently. Each command is explored in detail in the following pages, including syntax, practical examples, and real-world administrative use cases.
-```
 
