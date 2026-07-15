@@ -1,4 +1,4 @@
-'''mermaid
+```mermaid
 
 flowchart LR
 
@@ -13,7 +13,7 @@ Debian --> APT[apt]
 Enterprise --> RPM[rpm]
 Enterprise --> DNF[dnf]
 
-'''
+```
 
 # 📦 Linux Package Managers
 
