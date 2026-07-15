@@ -29,7 +29,7 @@ kubectl apply -f manifest.yaml
 kubectl delete -f manifest.yaml
 ```
 
-```ermaid
+```mermaid
 flowchart LR
   A[Inspect] -->|list| G[get]
   A -->|details| D[describe]
