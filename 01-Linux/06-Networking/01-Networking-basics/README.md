@@ -22,32 +22,29 @@ These concepts form the foundation of modern infrastructure, containers, Kuberne
 ---
 
 ```mermaid
-flowchart TB
+flowchart LR
 
-    APP["🖥️ Application Layer<br/><br/>HTTP<br/>HTTPS<br/>SSH<br/>DNS<br/>LDAP"]
+    USER["👤 User"]
 
-    TRANS["🚚 Transport Layer<br/><br/>TCP / UDP<br/><br/>Ports"]
+    SSH["🔐 SSH Client<br/>Port 22"]
 
-    NET["🌍 Network Layer<br/><br/>IP Addressing<br/>Routing<br/>IPv4 / IPv6"]
+    NIC["🌐 Network Interface<br/>eth0"]
 
-    LINK["🔗 Data Link Layer<br/><br/>MAC Address<br/>Switching<br/>Ethernet"]
+    IP["📍 IP Address<br/>192.168.1.50"]
 
-    PHY["⚡ Physical Layer<br/><br/>NIC<br/>Cable<br/>WiFi"]
+    ROUTER["🧭 Default Gateway"]
 
+    SERVER["🐧 Linux Server"]
 
-    APP --> TRANS
-    TRANS --> NET
-    NET --> LINK
-    LINK --> PHY
+    SERVICE["⚙️ Service<br/>nginx:443"]
 
 
-    CLIENT["👤 Client<br/>192.168.1.10"]
-
-    SERVER["🖥️ Server<br/>192.168.1.20"]
-
-
-    CLIENT -->|Request| APP
-    APP -->|Response| SERVER
+    USER --> SSH
+    SSH --> NIC
+    NIC --> IP
+    IP --> ROUTER
+    ROUTER --> SERVER
+    SERVER --> SERVICE
 
 ```
 
