@@ -22,9 +22,23 @@ These concepts form the foundation of modern infrastructure, containers, Kuberne
 ---
 
 
-# Important Tool
+---
 
-| Tool | Purpose | |-|-| | ip | Configure interfaces and routes | | ss | Inspect TCP/UDP connections | | ping | Test connectivity | | dig | DNS queries | | curl | Test application communication | | tcpdump | Analyze packets |
+# 🐧 TCP/IP in Linux
+
+Linux provides tools to interact with TCP/IP:
+
+| Tool | Purpose |
+|-|-|
+| `ip` | Configure interfaces and routes |
+| `ss` | Inspect TCP/UDP connections |
+| `ping` | Test connectivity |
+| `dig` | DNS queries |
+| `curl` | Test application communication |
+| `tcpdump` | Analyze packets |
+
+---
+
 
 ```mermaid
 flowchart TB
