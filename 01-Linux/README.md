@@ -38,8 +38,10 @@ flowchart TB
 | ⚙️ **Processes** | Services & systemd |
 | 🌐 **Networking** | TCP/IP & Tools |
 | 💾 **Storage** | Disks & LVM |
-| 🔐 **Security** | SSH & SELinux |
 | 📜 **Scripting** | Automation |
+| 🔐 **Security** | SSH & SELinux |
+|**Logging & Monitoring**| Journalctl |
+
 
 ---
 
