@@ -18,8 +18,10 @@ flowchart TB
     LINUX --> PROC["⚙️ Processes & systemd"]
     LINUX --> NET["🌐 Networking"]
     LINUX --> STORAGE["💾 Storage"]
-    LINUX --> SEC["🔐 Security"]
     LINUX --> SCRIPT["📜 Bash"]
+    LINUX --> SEC["🔐 Security"]
+    LINUX --> LOG["Logging & Monitoring"]
+    LINUX --> VIRT["Virtualization & Containers"]
 
 ```
 
