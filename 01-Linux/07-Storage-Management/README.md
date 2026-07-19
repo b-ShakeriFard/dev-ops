@@ -242,53 +242,6 @@ Benefits:
 | `vgs` | Show volume groups |
 | `pvs` | Show physical volumes |
 
----
-
-# 🔍 Storage Troubleshooting Flow
-
-```text
-Disk Problem
-
-      |
-
-      v
-
-Is the disk detected?
-
-lsblk
-
-      |
-
-      v
-
-Is the filesystem healthy?
-
-fsck / xfs_repair
-
-      |
-
-      v
-
-Is it mounted?
-
-mount
-
-      |
-
-      v
-
-Is there free space?
-
-df -h
-
-      |
-
-      v
-
-Which directory consumes space?
-
-du -sh
-```
 
 ---
 
