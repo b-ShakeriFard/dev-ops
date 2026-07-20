@@ -110,3 +110,46 @@ services:
       - "3000:3000"
       - "2222:22"
 ```
+
+Once you have the file ready, do a quick sanity check
+
+```bash
+docker compose config
+```
+
+If all is well; well... All is well :-D
+
+Now... calmly and charmingly run the 'docker compose up -d' command; sit back, relax, and repeat these words:
+
+I AM THE MASTER OF MY DESTINY. 
+
+Congratualtions :-D
+
+<hr>
+
+Joking aside, our progress has been non-trivial. And we will continue ;-)
+
+Check the logs, to make sure no major f@$k-ups are drawing attention:
+
+```bash 
+docker compose logs --tail=50
+
+```
+
+Now, we shall turn our attention towards firewall-related shenanigans :-D
+
+```bash
+sudo firewall-cmd --permanent --add-port=3000/tcp
+sudo firewall-cmd --permanent --add-port=2222/tcp
+sudo firewall-cmd --reload
+sudo firewall-cmd --list-ports
+```
+
+Now, we can claim that we have made solid progress. Why?
+Check this out: on your browser, type your local IP followed by port 3000, like this:
+
+```bash
+http://192.168.43.176:3000
+
+```
+and enjoy all that comes with this glorious moment :-D
