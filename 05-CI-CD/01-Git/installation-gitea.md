@@ -50,7 +50,7 @@ Here is a macro level overview of what we're about to do:
 
 <ul>
  <li> Web interface for administration and repository browsing </li>
-<li> SSH service for cloning and pushing repositories </li>
+ <li> SSH service for cloning and pushing repositories </li>
 </ul>
 
 - Complete initial configuration
@@ -75,3 +75,38 @@ Here is a macro level overview of what we're about to do:
 
 <hr>
 
+Make this folder 
+
+```bash
+sudo mkdir /opt/gitea/data
+```
+
+sanity check:
+```bash
+ls -ld /opt/gitea/data
+
+```
+
+Now we create the docker compose file for our Gitea container, with the following content:
+
+/opt/gitea/compose.yaml
+
+```bash
+
+services:
+  gitea:
+    image: docker.gitea.com/gitea:1.27.0
+    container_name: gitea
+    restart: unless-stopped
+
+    environment:
+      USER_UID: 1000
+      USER_GID: 1000
+
+    volumes:
+      - /opt/gitea/data:/data:Z
+
+    ports:
+      - "3000:3000"
+      - "2222:22"
+```
