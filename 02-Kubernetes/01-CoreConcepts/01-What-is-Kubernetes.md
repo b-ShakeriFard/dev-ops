@@ -4,6 +4,8 @@
 
 A cluster's architecture
 
+
+```mermaid
 flowchart TB
 
     U[Administrator / Developer]
@@ -70,6 +72,7 @@ flowchart TB
     CLIENT --> ING
     ING --> P1
     ING --> P3
+```
 
 ---
 
