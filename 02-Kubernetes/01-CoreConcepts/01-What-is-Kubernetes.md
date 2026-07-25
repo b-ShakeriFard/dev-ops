@@ -2,55 +2,23 @@
 
 ## 1. Overview
 
-Kubernetes is an open-source platform used to deploy, manage, scale, and operate containerized applications. It provides a consistent way to run applications across physical servers, virtual machines, private data centers, and public cloud environments.
+## 1. Overview
 
-Containers make it possible to package an application together with its dependencies. However, running a few containers manually is very different from operating hundreds or thousands of containers in a production environment. Administrators must handle scheduling, networking, scaling, failures, updates, storage, and security.
+```mermaid
+flowchart LR
+    A[Developer or Administrator] --> B[YAML Manifest]
+    B --> C[Kubernetes API Server]
+    C --> D[Control Plane]
+    D --> E[Worker Nodes]
+    E --> F[Pods and Containers]
 
-Kubernetes solves many of these operational challenges through automation.
+    D --> G[Desired State]
+    E --> H[Current State]
+    G --> I[Reconciliation]
+    H --> I
+    I --> E
+```
 
-Instead of manually starting containers on specific servers, administrators describe the desired state of the application. Kubernetes then works continuously to maintain that state.
-
-For example, an administrator may request:
-
-* Three instances of a web application
-* A stable network endpoint
-* Automatic restart of failed containers
-* Controlled rolling updates
-* Persistent storage for a database
-
-Kubernetes uses its control plane and worker nodes to make these requirements a reality.
-
-A Kubernetes environment is called a **cluster**. A cluster normally contains:
-
-* A **control plane**, which manages the cluster
-* One or more **worker nodes**, which run applications
-* A container runtime, such as containerd
-* Networking and storage components
-
-Applications are not deployed directly as individual containers. Kubernetes runs containers inside objects called **Pods**. Pods are the smallest deployable units in Kubernetes.
-
-Kubernetes is based on a declarative model. The user defines what the final system should look like, usually through YAML manifests. Kubernetes compares the desired state with the current state and makes changes when the two are different.
-
-This continuous comparison is called **reconciliation**.
-
-For example, when a Deployment requests three replicas but only two Pods are running, Kubernetes attempts to create another Pod automatically.
-
-Important Kubernetes capabilities include:
-
-* Automated container scheduling
-* Self-healing
-* Horizontal scaling
-* Service discovery
-* Load balancing
-* Rolling updates
-* Rollbacks
-* Configuration management
-* Secret management
-* Persistent storage integration
-* Resource control
-* Declarative infrastructure management
-
-Kubernetes does not normally build application source code or create container images. Those tasks are usually handled by development and CI/CD tools. Kubernetes is primarily responsible for running and managing the resulting containerized workloads.
 
 ---
 
