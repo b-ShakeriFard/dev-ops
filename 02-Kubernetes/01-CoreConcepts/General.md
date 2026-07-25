@@ -10,7 +10,7 @@ kubectl apply -f manifest.yaml
 kubectl delete -f manifest.yaml
 ```
 
-```
+
 ## Common patterns
 ```bash
 # Inspect everything in a namespace
