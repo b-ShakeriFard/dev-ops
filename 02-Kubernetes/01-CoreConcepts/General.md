@@ -1,23 +1,4 @@
-# kubectl — Master Cheatsheet
 
-> Command syntax: `kubectl [command] [TYPE] [NAME] [flags]`
->
-> - **command**: verb (get, describe, apply, delete…)
-> - **TYPE**: resource (pods, deploy, svc, cm, secret…)
-> - **NAME**: specific resource name
-> - **flags**: global or command-specific options
-
-## Contents
-- [Quick start](#quick-start)
-- [Visual map of commands](#visual-map-of-commands)
-- [Common patterns](#common-patterns)
-- [Core verbs (by task)](#core-verbs-by-task)
-- [Global flags](#global-flags)
-- [Output & filtering](#output--filtering)
-- [Resource type shortnames](#resource-type-shortnames)
-- [Troubleshooting flow](#troubleshooting-flow)
-
----
 
 ## Quick start
 ```bash
@@ -29,44 +10,6 @@ kubectl apply -f manifest.yaml
 kubectl delete -f manifest.yaml
 ```
 
-```mermaid
-flowchart LR
-  A[Inspect] -->|list| G[get]
-  A -->|details| D[describe]
-  A -->|metrics| T[top]
-  A -->|events| E(events)
-
-  B[Change] -->|create| C(create)
-  B -->|apply| AP(apply)
-  B -->|patch| P(patch)
-  B -->|edit| ED(edit)
-  B -->|delete| DEL(delete)
-  B -->|label/annotate| LA(label/annotate)
-  B -->|set image/resources| S(set)
-
-  R[Rollouts] --> RS(rollout status)
-  R --> RH(rollout history)
-  R --> RU(rollout undo)
-  R --> SC(scale)
-  R --> AU(autoscale)
-
-  W[Workload I/O] --> L(logs)
-  W --> X(exec)
-  W --> PF(port-forward)
-  W --> AT(attach)
-  W --> CP(cp)
-  W --> RUN(run)
-  W --> DBG(debug)
-
-  K[Cluster/Config] --> CI(cluster-info)
-  K --> AR(api-resources)
-  K --> AV(api-versions)
-  K --> EX(explain)
-  K --> AUTH(auth can-i)
-  K --> CFG(config)
-  K --> VER(version)
-  K --> DR(drain)
-  K --> CO(cordon/uncordon)
 ```
 ## Common patterns
 ```bash
