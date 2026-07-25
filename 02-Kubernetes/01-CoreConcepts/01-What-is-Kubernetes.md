@@ -2,8 +2,6 @@
 
 ## 1. Overview
 
-## 1. Overview
-
 ```mermaid
 flowchart LR
     A[Developer or Administrator] --> B[YAML Manifest]
