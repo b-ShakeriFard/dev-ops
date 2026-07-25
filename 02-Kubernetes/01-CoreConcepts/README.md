@@ -1,47 +1,52 @@
-```mermaid
-flowchart LR
+flowchart TB
 
-    USER[User / Administrator]
-    
-    USER -->|kubectl commands| API
+    USER[👤 User<br/>Requests Web Page]
+    LB[⚖️ External Load Balancer]
+    ING[🌐 Ingress Controller]
 
-    subgraph CONTROL[Control Plane]
-        API[kube-apiserver]
-        ETCD[(etcd\nCluster State)]
-        SCHED[kube-scheduler]
-        CM[kube-controller-manager]
+    USER --> LB
+    LB --> ING
+
+    subgraph CP[🧠 Control Plane / Master Nodes]
+        M1[Master Node 1<br/>API Server<br/>Scheduler<br/>Controller Manager]
+        M2[Master Node 2<br/>API Server<br/>Scheduler<br/>Controller Manager]
+        M3[Master Node 3<br/>API Server<br/>Scheduler<br/>Controller Manager]
+
+        ETCD[(🗄️ etcd Cluster)]
+
+        M1 <--> ETCD
+        M2 <--> ETCD
+        M3 <--> ETCD
     end
 
-    API --> ETCD
-    API --> SCHED
-    API --> CM
+    subgraph WORKERS[⚙️ Worker Nodes]
 
-    SCHED -->|assign Pods| NODE1
-    CM -->|maintain desired state| NODE1
+        subgraph W1[Worker Node 1]
+            NP1[🔌 NodePort Service]
+            P1[🚀 Web Pod 1]
+            P2[🚀 Web Pod 2]
+        end
 
-    subgraph WORKERS[Worker Nodes]
-        NODE1[Worker Node 1]
-        NODE2[Worker Node 2]
+        subgraph W2[Worker Node 2]
+            NP2[🔌 NodePort Service]
+            P3[🚀 Web Pod 3]
+        end
 
-        KUBELET1[kubelet]
-        KUBELET2[kubelet]
-
-        KPROXY1[kube-proxy]
-        KPROXY2[kube-proxy]
-
-        POD1[Pod]
-        POD2[Pod]
     end
 
-    NODE1 --> KUBELET1
-    NODE1 --> KPROXY1
-    NODE1 --> POD1
+    ING --> NP1
+    ING --> NP2
 
-    NODE2 --> KUBELET2
-    NODE2 --> KPROXY2
-    NODE2 --> POD2
+    NP1 --> CIP[🔗 ClusterIP Service]
+    NP2 --> CIP
 
-    API -->|API communication| KUBELET1
-    API -->|API communication| KUBELET2
+    CIP --> P1
+    CIP --> P2
+    CIP --> P3
 
-```
+    M1 -. manages .-> W1
+    M1 -. manages .-> W2
+    M2 -. manages .-> W1
+    M2 -. manages .-> W2
+    M3 -. manages .-> W1
+    M3 -. manages .-> W2
