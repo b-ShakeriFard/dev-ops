@@ -2,21 +2,74 @@
 
 ## 1. Overview
 
-```mermaid
-flowchart LR
-    A[Developer or Administrator] --> B[YAML Manifest]
-    B --> C[Kubernetes API Server]
-    C --> D[Control Plane]
-    D --> E[Worker Nodes]
-    E --> F[Pods and Containers]
+A cluster's architecture
 
-    D --> G[Desired State]
-    E --> H[Current State]
-    G --> I[Reconciliation]
-    H --> I
-    I --> E
-```
+flowchart TB
 
+    U[Administrator / Developer]
+    K[kubectl]
+    LB[Load Balancer<br/>API Endpoint]
+
+    U --> K
+    K --> LB
+
+    subgraph CP[Control Plane]
+        CP1[Control Plane 1<br/>API Server<br/>Scheduler<br/>Controller Manager]
+        CP2[Control Plane 2<br/>API Server<br/>Scheduler<br/>Controller Manager]
+        CP3[Control Plane 3<br/>API Server<br/>Scheduler<br/>Controller Manager]
+
+        ETCD[(etcd Cluster)]
+
+        CP1 --> ETCD
+        CP2 --> ETCD
+        CP3 --> ETCD
+    end
+
+    LB --> CP1
+    LB --> CP2
+    LB --> CP3
+
+    subgraph WORKERS[Worker Nodes]
+        W1[Worker Node 1<br/>kubelet<br/>kube-proxy<br/>containerd]
+        W2[Worker Node 2<br/>kubelet<br/>kube-proxy<br/>containerd]
+        W3[Worker Node 3<br/>kubelet<br/>kube-proxy<br/>containerd]
+
+        P1[Pod A]
+        P2[Pod B]
+        P3[Pod C]
+        P4[Pod D]
+
+        W1 --> P1
+        W1 --> P2
+        W2 --> P3
+        W3 --> P4
+    end
+
+    CP1 --> W1
+    CP1 --> W2
+    CP1 --> W3
+
+    CP2 --> W1
+    CP2 --> W2
+    CP2 --> W3
+
+    CP3 --> W1
+    CP3 --> W2
+    CP3 --> W3
+
+    subgraph SERVICES[Cluster Services]
+        DNS[CoreDNS]
+        CNI[CNI Plugin]
+        CSI[CSI Storage Driver]
+        ING[Ingress Controller]
+    end
+
+    WORKERS --> SERVICES
+
+    CLIENT[External Client]
+    CLIENT --> ING
+    ING --> P1
+    ING --> P3
 
 ---
 
