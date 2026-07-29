@@ -54,11 +54,7 @@ The scheduler considers factors such as:
 
 ## 4. Syntax and Cheat Sheet
 
-View Pods and assigned nodes:
 
-```bash
-kubectl get pods -o wide
-```
 
 View pending Pods:
 
@@ -66,17 +62,6 @@ View pending Pods:
 kubectl get pods --field-selector=status.phase=Pending
 ```
 
-Inspect scheduling events:
-
-```bash
-kubectl describe pod <pod-name>
-```
-
-View recent cluster events:
-
-```bash
-kubectl get events --sort-by=.metadata.creationTimestamp
-```
 
 View scheduler Pod:
 
