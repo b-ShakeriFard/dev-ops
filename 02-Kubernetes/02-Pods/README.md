@@ -22,9 +22,6 @@ flowchart LR
     KUBELET --> RUNTIME[📦 Container Runtime]
     RUNTIME --> POD[🚀 Pod]
 
-    POD --> APP[Application Container]
-    POD --> SIDE[Sidecar Container]
-    POD --> VOL[💾 Shared Volume]
 
     KUBELET --> PROBES[❤️ Health Probes]
     KUBELET --> STATUS[📊 Pod Status]
