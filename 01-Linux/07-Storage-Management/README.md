@@ -2,9 +2,7 @@
 
 > Understanding disks, partitions, filesystems, mounts, and logical storage management in Linux.
 
----
 
-# Overview
 
 Every Linux system needs storage to:
 
@@ -16,43 +14,10 @@ Every Linux system needs storage to:
 
 The Linux storage stack:
 
-```text
-Application
-
-      |
-
-      v
-
-Filesystem
-
-      |
-
-      v
-
-Mount Point
-
-      |
-
-      v
-
-Logical Volume (LVM)
-
-      |
-
-      v
-
-Partition
-
-      |
-
-      v
-
-Physical Disk
-```
 
 ---
 
-# 🎯 What Problem Does Storage Management Solve?
+## 🎯 What Problem Does Storage Management Solve?
 
 Linux administrators need to answer:
 
@@ -71,15 +36,6 @@ Linux administrators need to answer:
 
 The actual storage device:
 
-Examples:
-
-```
-/dev/sda
-
-/dev/nvme0n1
-
-/dev/vdb
-```
 
 View disks:
 
@@ -93,18 +49,6 @@ lsblk
 
 A disk can be divided into smaller sections.
 
-Example:
-
-```
-/dev/sda
-
- |
- +-- /dev/sda1
- |
- +-- /dev/sda2
- |
- +-- /dev/sda3
-```
 
 Tools:
 
@@ -146,21 +90,6 @@ mkfs.xfs
 
 Linux accesses storage through directories.
 
-Example:
-
-```
-Disk
-
-/dev/sdb1
-
-     |
-
-     v
-
-Mounted at:
-
- /data
-```
 
 View mounts:
 
@@ -176,7 +105,7 @@ df -h
 
 ---
 
-# 🔥 LVM (Logical Volume Management)
+## 🔥 LVM (Logical Volume Management)
 
 LVM adds flexibility between disks and filesystems.
 
