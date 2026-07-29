@@ -1,12 +1,21 @@
 # Pods 🚀
 
-Pods are the smallest deployable units in Kubernetes and provide the environment in which containers run. This folder begins with the basic Pod model, then moves through lifecycle states, multi-container designs, init and sidecar containers, static and ephemeral Pods, resource management, QoS classes, restart behavior, health probes, and troubleshooting. The structure is intentionally broader than the earlier six-file version because several Pod-level concepts deserve their own focused page, but each page will remain short, visual, and information-dense. Scheduling topics such as affinity and anti-affinity are excluded from this folder because they belong more naturally in the dedicated Scheduling chapter. Together, these pages explain how Pods are created, started, monitored, restarted, debugged, and managed on worker nodes without overlapping too heavily with Deployments, Services, or advanced cluster administration. This creates a complete but easy-to-scan foundation before moving into higher-level workload controllers.
+## Overview
+
+A **Pod** is the smallest deployable unit in Kubernetes. It provides the environment in which one or more containers run together on a worker node. Containers inside the same Pod share the Pod’s IP address, network namespace, port space, and any volumes attached to the Pod.
+
+Most Pods contain a single application container. However, Kubernetes also supports multi-container patterns in which supporting containers work closely with the main application. Examples include sidecar containers for logging, proxying, synchronization, or certificate management.
+
+Pods are temporary by design. They may be deleted, recreated, rescheduled, or replaced with a new Pod that has a different name and IP address. For this reason, production Pods are usually managed through higher-level workload controllers such as Deployments, StatefulSets, DaemonSets, Jobs, and CronJobs rather than created manually.
+
+This folder focuses on the main concepts required to understand how Pods are defined, started, scheduled, monitored, and operated.
 
 ## Pod Workflow
 
 ```mermaid
 flowchart LR
-    YAML[📄 Pod Manifest] --> API[🌐 API Server]
+    USER[👨‍💻 Administrator] --> YAML[📄 Pod Manifest]
+    YAML --> API[🌐 API Server]
     API --> SCHED[📅 Scheduler]
     SCHED --> NODE[⚙️ Worker Node]
     NODE --> KUBELET[🔧 kubelet]
@@ -17,7 +26,7 @@ flowchart LR
     POD --> SIDE[Sidecar Container]
     POD --> VOL[💾 Shared Volume]
 
-    KUBELET --> HEALTH[❤️ Health Probes]
+    KUBELET --> PROBES[❤️ Health Probes]
     KUBELET --> STATUS[📊 Pod Status]
     STATUS --> API
 ```
@@ -27,16 +36,53 @@ flowchart LR
 ```text
 02-Pods/
 ├── README.md
-├── 01-Pod.md
-├── 02-Pod-Lifecycle.md
-├── 03-Multi-Container-Pods.md
-├── 04-Init-Containers.md
-├── 05-Sidecar-Containers.md
-├── 06-Static-Pods.md
-├── 07-Ephemeral-Containers.md
-├── 08-Resource-Requests-and-Limits.md
-├── 09-QoS-Classes.md
-├── 10-Restart-Policy.md
-├── 11-Health-Probes.md
-└── 12-Pod-Troubleshooting.md
+├── Pod.md
+├── Init-Containers.md
+├── Multi-Container-Pods.md
+├── Sidecar-Containers.md
+├── Affinity-and-AntiAffinity.md
+├── Resource-Limits.md
+├── Health-Probes.md
+└── Static-Pods.md
 ```
+
+## Topics Covered
+
+### `Pod.md`
+
+Introduces the Pod model, its YAML structure, shared networking, attached volumes, container definitions, restart behavior, and common administrative commands.
+
+### `Init-Containers.md`
+
+Covers containers that run before the main application starts. Init containers are commonly used to prepare configuration, wait for dependencies, set permissions, or populate shared volumes.
+
+### `Multi-Container-Pods.md`
+
+Explains how tightly connected containers can run inside the same Pod and communicate through `localhost` or shared storage.
+
+### `Sidecar-Containers.md`
+
+Focuses on supporting containers that remain active beside the main application. Common examples include log collectors, service-mesh proxies, and configuration synchronizers.
+
+### `Affinity-and-AntiAffinity.md`
+
+Introduces rules that influence where Pods are scheduled. Affinity can place workloads near selected nodes or Pods, while anti-affinity can distribute replicas across different nodes or failure domains.
+
+### `Resource-Limits.md`
+
+Covers CPU and memory requests and limits. Requests influence scheduling, while limits control the maximum resources a container may consume.
+
+### `Health-Probes.md`
+
+Explains liveness, readiness, and startup probes. These checks help Kubernetes restart unhealthy containers and prevent unavailable Pods from receiving traffic.
+
+### `Static-Pods.md`
+
+Describes Pods managed directly by the kubelet through local manifest files. Static Pods are commonly used for control-plane components in kubeadm-based clusters.
+
+## Goal
+
+The goal of this folder is to provide a practical understanding of Pods without turning each topic into a long theoretical chapter. Every page follows the same compact structure: overview, Mermaid diagram, cheat sheet, practical example, YAML sample, common problems, interview questions, and related topics.
+
+After completing this folder, the reader should understand how Pods run containers, interact with worker nodes, consume resources, report health, and participate in Kubernetes scheduling.
+
