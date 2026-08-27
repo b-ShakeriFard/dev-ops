@@ -11,7 +11,7 @@ The most common workload controller is the **Deployment**, which is designed pri
 This folder covers:
 
 ```text
-04-Workloads/
+03-Workloads/
 ├── README.md
 ├── Deployment.md
 ├── ReplicaSet.md
