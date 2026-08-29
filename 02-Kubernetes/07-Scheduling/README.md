@@ -6,6 +6,7 @@ By default, the Kubernetes Scheduler evaluates available Nodes and selects a sui
 
 This section covers the main mechanisms used to influence Pod placement:
 
+```text
 - `nodeSelector`
 - Node Affinity and Anti-Affinity
 - Pod Affinity and Anti-Affinity
@@ -14,6 +15,7 @@ This section covers the main mechanisms used to influence Pod placement:
 - Manual Scheduling
 - Priority Classes and Preemption
 - Topology Spread Constraints
+```
 
 A simple example using `nodeSelector`:
 
@@ -29,3 +31,4 @@ spec:
   containers:
     - name: nginx
       image: nginx:latest
+```
