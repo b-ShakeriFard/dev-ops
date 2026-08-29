@@ -28,3 +28,21 @@ spec:
       securityContext:
         runAsNonRoot: true
         allowPrivilegeEscalation: false
+
+```
+
+
+For this folder, I’d probably structure it roughly like:
+
+```text
+08-Security/
+├── README.md
+├── Authentication.md
+├── Authorization.md
+├── RBAC.md
+├── ServiceAccounts.md
+├── Security-Contexts.md
+├── Pod-Security-Standards.md
+├── Network-Policies.md
+└── Admission-Control.md
+```
