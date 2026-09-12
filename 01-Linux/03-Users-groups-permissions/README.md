@@ -1,273 +1,181 @@
-# 👥 Linux Users, Groups & Permissions
+# 👥 Users, Groups & Permissions
+
+> Managing identities, access, ownership, and privileges in Linux.
+
+---
+
+## On This Page
+
+- [Quick Cheat Sheet](#quick-cheat-sheet)
+- [Overview](#overview)
+- [Access Control Model](#access-control-model)
+- [Core Topics](#core-topics)
+
+---
+
+## Quick Cheat Sheet
+
+| Command | Purpose |
+|---|---|
+| `id USER` | Show user and group information |
+| `useradd USER` | Create user |
+| `usermod` | Modify user |
+| `userdel USER` | Delete user |
+| `groupadd GROUP` | Create group |
+| `passwd USER` | Set password |
+| `chown` | Change ownership |
+| `chmod` | Change permissions |
+| `sudo` | Run command with elevated privileges |
+| `umask` | Control default permissions |
+
+---
 
 ## Overview
 
-Linux is a multi-user operating system designed to support multiple users, applications, and services running simultaneously.
+Linux access control is built around three main ideas:
 
-To maintain security and organization, Linux uses a permission model based on **users**, **groups**, and **ownership**.
+```text
+Users
+  +
+Groups
+  +
+Permissions
+```
 
-Every process running on a Linux system has an associated user identity, and every file or directory has ownership information that determines who can access and modify it.
+A file typically has:
 
-Understanding users, groups, and permissions is fundamental for Linux administration because it controls system security, application access, and resource management.
-
----
-
-# 👤 Users in Linux
-
-A **user** represents an identity that can interact with the Linux system.
-
-Users can be:
-
-- Human users
-- System users
-- Service accounts
-
-Examples:
-
-| User Type | Purpose |
-|---|---|
-| Regular user | Human account for daily activities |
-| Root user | Superuser with unrestricted privileges |
-| System user | Account used by services and applications |
-
-Each user has important attributes:
-
-- Username
-- User ID (UID)
-- Primary group
-- Home directory
-- Default shell
+```text
+Owner
+Group
+Permissions
+```
 
 Example:
 
 ```text
-username:x:1001:1001:User Name:/home/username:/bin/bash
-```
-
-User information is stored mainly in:
-
-```text
-/etc/passwd
-/etc/shadow
-```
-
----
-
-# 🔑 Root User and Privileges
-
-Linux has a special administrative account called **root**.
-
-The root user has complete control over the system:
-
-- Install and remove software
-- Modify system configuration
-- Manage users
-- Access all files
-- Control system services
-
-Because root has unlimited privileges, administrators usually use controlled privilege escalation through tools such as:
-
-```bash
-sudo
-```
-
-This approach improves security and accountability.
-
----
-
-# 👥 Groups in Linux
-
-A **group** is a collection of users who share common permissions.
-
-Groups simplify administration by allowing permissions to be assigned to multiple users at once.
-
-Examples:
-
-```text
-Developers
-Database Administrators
-System Administrators
-Docker Users
-```
-
-Each user has:
-
-- One primary group
-- Zero or more secondary groups
-
-Group information is stored in:
-
-```text
-/etc/group
-```
-
----
-
-# 🔐 File Ownership Model
-
-Every file and directory in Linux has:
-
-- Owner
-- Group owner
-- Permission settings
-
-Example:
-
-```bash
-ls -l file.txt
-```
-
-Output:
-
-```text
--rw-r----- 1 alice developers file.txt
+-rwxr-x--- alice developers script.sh
 ```
 
 Meaning:
 
+```text
+Owner → alice
+Group → developers
+Access → controlled by rwx permissions
 ```
-Owner  → alice
-Group  → developers
-```
-
-Permissions are divided into three categories:
-
-| Category | Applies To |
-|---|---|
-| User | File owner |
-| Group | Group members |
-| Others | Everyone else |
 
 ---
 
-# 🛡️ Linux Permission System
+## Access Control Model
 
-Linux permissions determine what actions users can perform.
+```mermaid
+flowchart LR
 
-The three basic permissions are:
+    U["👤 User"] --> G["👥 Group"]
+    G --> F["📄 File / Directory"]
+    U --> F
+    F --> P["🔐 Permissions<br>r / w / x"]
+    P --> A["✅ Allowed<br>or<br>❌ Denied"]
+```
 
-| Permission | Meaning |
-|---|---|
-| `r` | Read |
-| `w` | Write |
-| `x` | Execute |
+---
 
-Example:
+## Core Topics
 
 ```text
--rwxr-xr--
+03-Users-Groups-Permissions/
+├── README.md
+├── users.md
+├── groups.md
+├── useradd-usermod.md
+├── passwd.md
+├── sudo.md
+├── ownership.md
+├── chmod.md
+├── umask.md
+├── special-permissions.md
+└── troubleshooting.md
 ```
 
-Breakdown:
+### Users & Groups
 
-```text
-Owner     rwx
-Group     r-x
-Others    r--
-```
+Manage local identities and memberships.
 
-This model provides fine-grained control over system resources.
+### Passwords
 
----
-
-# 🔄 Permission Management
-
-Linux administrators manage permissions using several concepts:
-
-## Ownership
-
-Changing ownership:
+Control authentication using:
 
 ```bash
-chown
-```
-
-Example:
-
-```bash
-chown user file.txt
-```
-
----
-
-## Group Ownership
-
-Changing group ownership:
-
-```bash
-chgrp
-```
-
-Example:
-
-```bash
-chgrp developers file.txt
-```
-
----
-
-## Permission Modification
-
-Changing permissions:
-
-```bash
-chmod
-```
-
-Example:
-
-```bash
-chmod 750 script.sh
-```
-
----
-
-# ⚙️ User Administration Tasks
-
-Linux administrators commonly perform:
-
-- Creating users
-- Removing users
-- Changing passwords
-- Managing groups
-- Assigning permissions
-- Configuring sudo access
-- Managing service accounts
-
-Common commands include:
-
-```bash
-useradd
-usermod
-userdel
 passwd
-groupadd
-groupmod
-groupdel
-id
-whoami
-groups
+```
+
+### sudo
+
+Delegate administrative privileges without sharing the root password.
+
+### Ownership
+
+Every file belongs to:
+
+```text
+User + Group
+```
+
+### Permissions
+
+Linux uses:
+
+```text
+r = read
+w = write
+x = execute
+```
+
+### Special Permissions
+
+Advanced controls include:
+
+```text
+SUID
+SGID
+Sticky Bit
 ```
 
 ---
 
-# 🏢 Users and Groups in Enterprise Linux
+## Key Mental Model
 
-In enterprise environments, user management often integrates with centralized identity systems:
-
-- LDAP
-- Active Directory
-- Kerberos
-- Identity Management (IdM)
-
-This allows organizations to manage thousands of users across many Linux servers using a unified authentication system.
+```text
+Identity
+   ↓
+Group Membership
+   ↓
+Ownership
+   ↓
+Permissions
+   ↓
+Access
+```
 
 ---
 
-# Conclusion
+## Related Chapters
 
-Users, groups, and permissions form the security foundation of Linux.
+- `../02-File-System/`
+- `../05-Processes-Systemd/`
+- `../10-Security/`
 
-A Linux administrator must understand not only how to create accounts, but also how identities, ownership, and permissions interact to protect system resources.
+---
 
-Mastering this area is essential before moving into advanced topics such as system security, containers, Kubernetes RBAC, and enterprise authentication systems.
+## Conclusion
+
+Linux security starts with knowing:
+
+```text
+Who is the user?
+Which groups do they belong to?
+Who owns the file?
+What permissions apply?
+```
+
+These concepts form the foundation of Linux access control.
