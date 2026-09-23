@@ -1,71 +1,108 @@
-# Kubernetes LEMP Stack Deployment - Interview Guide
+# Kubernetes LEMP Stack - Complete Guide
 
-## Overview
+## Challenge Statement
 
-This challenge combines:
+Deploy a LEMP-style application on Kubernetes.
 
--   Secrets
--   ConfigMaps
--   Deployments
--   Multi-container Pods
--   Services
--   Environment variables
--   PHP configuration
+Requirements:
 
-Architecture:
+-   Create MySQL Secrets:
+    -   `mysql-root-pass`
+        -   key: password
+        -   value: R00t
+    -   `mysql-user-pass`
+        -   key: username
+        -   value: kodekloud_pop
+        -   key: password
+        -   value: dCV3szSGNA
+    -   `mysql-db-url`
+        -   key: database
+        -   value: kodekloud_db8
+    -   `mysql-host`
+        -   key: host
+        -   value: 127.0.0.1
+-   Create ConfigMap:
+    -   name: `php-config`
+    -   php.ini content: `variables_order = "EGPCS"`
+-   Create Deployment:
+    -   name: `lemp-wp`
+-   Containers:
+    -   `nginx-php-container`
+        -   image: `webdevops/php-nginx:alpine-3-php7`
+    -   `mysql-container`
+        -   image: `mysql:5.6`
+-   Mount ConfigMap:
+    -   path: `/opt/docker/etc/php/php.ini`
+-   Inject these environment variables from Secrets:
 
-    Browser
-      |
-    NodePort Service
-      |
+```{=html}
+<!-- -->
+```
+    MYSQL_ROOT_PASSWORD
+    MYSQL_DATABASE
+    MYSQL_USER
+    MYSQL_PASSWORD
+    MYSQL_HOST
+
+-   Create Services:
+    -   NodePort: `lemp-service`
+    -   nodePort: `30008`
+    -   ClusterIP: `mysql-service`
+    -   port: `3306`
+-   Copy `/tmp/index.php` into:
+
+```{=html}
+<!-- -->
+```
+    /app/index.php
+
+The PHP application must use environment variables, not hardcoded
+database values.
+
+Expected result:
+
+    Connected successfully
+
+------------------------------------------------------------------------
+
+# Architecture
+
+    User
+     |
+    NodePort 30008
+     |
     Nginx/PHP Container
-      |
+     |
     localhost:3306
-      |
+     |
     MySQL Sidecar Container
 
-In this lab MySQL runs in the same Pod as PHP, therefore the database
-host is:
+------------------------------------------------------------------------
 
-    127.0.0.1
+# Key Lessons Learned
+
+## Same-Pod Communication
+
+Containers in the same Pod share the network namespace.
+
+Therefore MySQL can be reached through:
+
+    127.0.0.1:3306
+
+when MySQL is deployed as a sidecar.
 
 ------------------------------------------------------------------------
 
-# Secrets
+## Secret vs ConfigMap
 
-Secrets store sensitive values:
-
--   passwords
--   usernames
--   tokens
-
-Create:
-
-``` bash
-kubectl create secret generic mysql-root-pass --from-literal=password=R00t
-```
-
-Multiple keys:
-
-``` bash
-kubectl create secret generic mysql-user-pass --from-literal=username=user --from-literal=password=password
-```
-
-Inspect keys:
-
-``` bash
-kubectl describe secret mysql-user-pass
-```
-
-Decode values:
-
-``` bash
-kubectl get secret mysql-user-pass -o jsonpath='{.data.password}' | base64 -d
-```
+  Object      Purpose
+  ----------- --------------------------------
+  Secret      Passwords, tokens, credentials
+  ConfigMap   Non-sensitive configuration
 
 ------------------------------------------------------------------------
 
-# Using Secrets as Environment Variables
+## Secret Injection
 
 Pattern:
 
@@ -86,155 +123,56 @@ Flow:
      |
     Environment Variable
      |
-    Container
-
-Use `env` when defining individual variables.
+    Application
 
 ------------------------------------------------------------------------
 
-# ConfigMaps
-
-ConfigMaps store non-sensitive configuration.
-
-Example:
-
-``` bash
-kubectl create configmap php-config --from-literal=php.ini='variables_order = "EGPCS"'
-```
-
-Mount:
-
-``` yaml
-volumes:
-- name: php-config-volume
-  configMap:
-    name: php-config
-```
-
-Container:
-
-``` yaml
-volumeMounts:
-- name: php-config-volume
-  mountPath: /opt/docker/etc/php/php.ini
-  subPath: php.ini
-```
-
-------------------------------------------------------------------------
-
-# Deployment
-
-A Deployment manages Pods.
-
-Example:
-
-``` yaml
-kind: Deployment
-metadata:
-  name: lemp-wp
-```
-
-This lab uses two containers:
-
--   nginx/php container
--   mysql container
-
-------------------------------------------------------------------------
-
-# Services
-
-## NodePort
-
-Exposes the website:
-
-``` yaml
-type: NodePort
-```
-
-Example:
-
-``` yaml
-ports:
-- port: 80
-  targetPort: 80
-  nodePort: 30008
-```
-
-## ClusterIP
-
-Provides internal networking:
-
-``` yaml
-type: ClusterIP
-```
-
-------------------------------------------------------------------------
-
-# PHP Configuration
-
-Never hardcode database details.
+## Do Not Hardcode Configuration
 
 Bad:
 
 ``` php
-$dbhost='127.0.0.1';
+$dbhost = '127.0.0.1';
 ```
 
 Good:
 
 ``` php
-$dbhost=getenv('MYSQL_HOST');
-$dbname=getenv('MYSQL_DATABASE');
-$dbuser=getenv('MYSQL_USER');
-$dbpass=getenv('MYSQL_PASSWORD');
+$dbhost = getenv('MYSQL_HOST');
 ```
 
-Kubernetes injects the values.
+Kubernetes injects configuration; the application reads it.
 
 ------------------------------------------------------------------------
 
-# Copy Application Files
+## Troubleshooting Workflow
 
-Copy PHP file:
-
-``` bash
-kubectl cp /tmp/index.php POD:/app/index.php -c nginx-php-container
-```
-
-Verify:
-
-``` bash
-kubectl exec POD -c nginx-php-container -- cat /app/index.php
-```
-
-------------------------------------------------------------------------
-
-# Troubleshooting
-
-Check Pods:
+1.  Check Pods:
 
 ``` bash
 kubectl get pods
 ```
 
-Describe:
-
-``` bash
-kubectl describe pod POD
-```
-
-Logs:
+2.  Check logs:
 
 ``` bash
 kubectl logs POD -c container
 ```
 
-Services:
+3.  Verify environment variables:
+
+``` bash
+kubectl exec POD -- printenv
+```
+
+4.  Check Services:
 
 ``` bash
 kubectl get svc
 kubectl get endpoints
 ```
+
+5.  Verify application configuration.
 
 ------------------------------------------------------------------------
 
@@ -242,55 +180,42 @@ kubectl get endpoints
 
 ## What is the difference between Secret and ConfigMap?
 
-Secret stores sensitive information. ConfigMap stores normal
-configuration.
+Secret stores sensitive data. ConfigMap stores normal configuration.
 
-## How does Kubernetes inject a Secret into a container?
+## How does Kubernetes inject Secrets into containers?
 
 Using:
 
 ``` yaml
-env:
-  valueFrom:
-    secretKeyRef:
+valueFrom:
+  secretKeyRef:
 ```
 
-or by mounting it as a volume.
+or by mounting Secrets as files.
 
-## Why should applications not contain passwords?
+## Why should passwords not be stored in source code?
 
-Because credentials should be separated from application code for
-security and easier rotation.
+Because credentials can leak and rotation becomes difficult.
 
-## Why use Services instead of Pod IP addresses?
+## Why does PHP use localhost instead of mysql-service?
 
-Pods are temporary. Services provide stable networking.
+Because MySQL is running in the same Pod.
 
-## Why can PHP connect using localhost?
+## Why use Services?
 
-Because MySQL is running in the same Pod and containers share the
-network namespace.
+Services provide stable networking because Pod IPs are temporary.
 
-## How would you troubleshoot database connection failures?
+## How would you troubleshoot a database connection failure?
 
 Check:
 
 1.  Pod status
-2.  Container logs
+2.  Logs
 3.  Environment variables
-4.  Service/endpoints
+4.  Services/endpoints
 5.  Database availability
 
-## What happens to MySQL data if the Pod is deleted?
+## How would this change for production?
 
-Without persistent storage, data may be lost. Production systems use
-PV/PVC.
-
-## What Kubernetes objects were used?
-
--   Secret
--   ConfigMap
--   Deployment
--   Pod
--   Service
--   Environment variables
+Use StatefulSets, PersistentVolumes, backups, and stronger security
+controls.
