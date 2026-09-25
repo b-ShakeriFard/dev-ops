@@ -24,6 +24,155 @@ The requirements were to:
 
 ---
 
+
+# Useful Commands
+
+| Command | Purpose |
+|---|---|
+| `git branch` | List local branches |
+| `git checkout master` | Switch to master |
+| `git checkout -b datacenter` | Create and switch to a branch |
+| `git status` | Inspect working tree and staging area |
+| `git add index.html` | Stage a file |
+| `git commit -m "message"` | Commit staged changes |
+| `git merge datacenter` | Merge branch into current branch |
+| `git show branch:file` | Show a committed file from a branch |
+| `git push origin branch` | Push a branch |
+| `git remote -v` | Show remote repositories |
+| `git ls-remote --heads origin` | Show remote branch refs |
+| `git log --oneline --graph --all` | Visualize history |
+
+---
+
+# Final Result
+
+The successful workflow:
+
+```text
+master
+  |
+  +-- create datacenter
+        |
+        +-- copy index.html
+        +-- stage
+        +-- commit
+        |
+        v
+    datacenter
+        |
+        +-- merge into master
+        |
+        +-- push datacenter
+        +-- push master
+```
+
+Final remote state:
+
+```text
+origin/datacenter
+origin/master
+```
+
+Both branches contained the required `index.html` commit, and the challenge passed successfully.
+
+---
+
+# Interview Questions
+
+## 1. What is a Git branch?
+
+A branch is a movable pointer to a commit. It allows independent development without immediately changing another branch such as `master`.
+
+## 2. What does this command do?
+
+```bash
+git checkout -b datacenter
+```
+
+It creates the `datacenter` branch and switches to it.
+
+Equivalent older-style sequence:
+
+```bash
+git branch datacenter
+git checkout datacenter
+```
+
+## 3. What is the difference between `git add` and `git commit`?
+
+`git add` puts changes into the staging area.
+
+`git commit` records the staged snapshot in repository history.
+
+## 4. What is a fast-forward merge?
+
+It occurs when the target branch has not diverged. Git simply advances the target branch pointer to the newer commit.
+
+## 5. How can you inspect a file from another branch without switching branches?
+
+```bash
+git show branch-name:path/to/file
+```
+
+Example:
+
+```bash
+git show datacenter:index.html
+```
+
+## 6. Does creating a local branch create a remote branch?
+
+No.
+
+You must push it:
+
+```bash
+git push origin datacenter
+```
+
+## 7. What is `origin`?
+
+`origin` is the conventional default name for the remote repository from which a repository was cloned.
+
+Check it with:
+
+```bash
+git remote -v
+```
+
+## 8. What does `git ls-remote --heads origin` do?
+
+It queries the remote and displays branch references and their commit hashes.
+
+## 9. Why might two branches have the same commit hash?
+
+After a fast-forward merge, both branches can point to exactly the same commit.
+
+## 10. What is the difference between merge and rebase?
+
+`git merge` combines histories and preserves branch structure.
+
+`git rebase` replays commits onto another base and rewrites commit history to create a more linear sequence.
+
+## 11. What causes a merge conflict?
+
+A conflict occurs when Git cannot automatically reconcile competing changes, commonly when both branches modify overlapping lines of the same file.
+
+## 12. What should you check before pushing?
+
+Useful checks include:
+
+```bash
+git status
+git branch
+git log --oneline --graph --all
+git show datacenter:index.html
+```
+
+These help verify that the correct commit exists on the correct branch before anything is sent to the remote.
+
+---
+
 # Step-by-Step Guide
 
 ## 1. Connect to the Storage Server
@@ -327,27 +476,6 @@ sudo git commit ...
 worked.
 
 In a production environment, the preferred solution is normally correct user/group ownership and permissions rather than routine Git use as root.
-
----
-
-# Useful Commands
-
-| Command | Purpose |
-|---|---|
-| `git branch` | List local branches |
-| `git checkout master` | Switch to master |
-| `git checkout -b datacenter` | Create and switch to a branch |
-| `git status` | Inspect working tree and staging area |
-| `git add index.html` | Stage a file |
-| `git commit -m "message"` | Commit staged changes |
-| `git merge datacenter` | Merge branch into current branch |
-| `git show branch:file` | Show a committed file from a branch |
-| `git push origin branch` | Push a branch |
-| `git remote -v` | Show remote repositories |
-| `git ls-remote --heads origin` | Show remote branch refs |
-| `git log --oneline --graph --all` | Visualize history |
-
----
 
 # Interview Questions
 
