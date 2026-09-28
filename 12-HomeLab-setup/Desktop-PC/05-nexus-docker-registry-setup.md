@@ -1,4 +1,4 @@
-# Part 1 — Setting Up Nexus as Our Homelab Docker Registry
+# Part 5 — Setting Up Nexus as Our Homelab Docker Registry
 
 **Reference date:** 28 September 2026  
 **Host:** Rocky Linux desktop  
@@ -6,7 +6,7 @@
 
 ## Series roadmap
 
-1. **This file:** Nexus Docker registry setup and manual smoke test.
+1. Nexus Docker registry setup and manual smoke test.
 2. Nexus CI role, `gitea-ci` user, permissions, and credentials.
 3. The `.gitea/workflows/hello.yaml` workflow.
 4. Running and verifying the first Gitea Actions job.

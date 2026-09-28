@@ -1,4 +1,4 @@
-# Part 2 — Creating the Nexus CI Role and gitea-ci User
+# Part 6 — Creating the Nexus CI Role and gitea-ci User
 
 **Reference date:** 28 September 2026  
 **Environment:** Behroox’s Rocky Linux homelab  
