@@ -5,7 +5,7 @@ This records the changes and checks performed on the Asus desktop running **Rock
 | Item | Value observed |
 | --- | --- |
 | Rocky LAN interface | `enp4s0` |
-| Rocky IP | `192.168.1.11/24`, supplied by DHCP |
+| Rocky IP | `192.168.1.23/24`, supplied by DHCP |
 | Router and default gateway | `192.168.1.1` |
 | Ethernet NetworkManager profile | `Profile 1` |
 | Desktop Ethernet MAC | `24:4b:fe:e0:38:0f` |
@@ -26,7 +26,7 @@ nmcli -f NAME,DEVICE,TYPE connection show --active
 
 `ip -br addr` is the correct short address command; `ip -br- addr` is a typo. Docker and libvirt add bridge interfaces, but `enp4s0` is the physical LAN connection. We identified `Profile 1` as its active NetworkManager profile.
 
-To keep `.11` reliably, reserve `192.168.1.11` for MAC `24:4b:fe:e0:38:0f` in the router's **DHCP Static Leases** page. The desktop was receiving `.11` by DHCP; the screenshot did **not** establish that this reservation had been saved. Check the router before treating `.11` as guaranteed after a lease renewal or reboot.
+To keep `.23` reliably, reserve `192.168.1.23` for MAC `24:$$$:##:%%:^*:11` in the router's **DHCP Static Leases** page. The desktop was receiving `.23` by DHCP; the screenshot did **not** establish that this reservation had been saved. Check the router before treating `.23` as guaranteed after a lease renewal or reboot.
 
 ## The directory-watch error
 
@@ -119,7 +119,7 @@ nslookup dns.home.arpa
 The Pi's `dnsmasq` records are configured **on the Pi** in `/etc/dnsmasq.d/homelab.conf`; editing an identically named file on Rocky does not add records to the Pi. For a future `desktop.home.arpa → 192.168.1.11` record, first confirm the router's `.11` DHCP reservation, then add the record on the Pi, validate its configuration, restart its service, and query it from Rocky:
 
 ```ini
-host-record=desktop.home.arpa,192.168.1.11
+host-record=desktop.home.arpa,192.168.1.23
 ```
 
 ```bash
