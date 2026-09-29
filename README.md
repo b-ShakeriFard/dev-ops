@@ -1,4 +1,4 @@
-# dev-ops
+# DevOps
 
 1. Linux — CLI, filesystems, users/groups, permissions, systemd, processes, networking, storage/LVM, SSH, SELinux, logs, troubleshooting.
 2. Networking — TCP/IP, subnetting, DNS, HTTP/HTTPS, routing, NAT, firewalls, reverse proxies, TLS.
