@@ -17,6 +17,8 @@
 To be added:
 1. Networking — TCP/IP, subnetting, DNS, HTTP/HTTPS, routing, NAT, firewalls, reverse proxies, TLS.
 2. Containers — Docker/Podman, images, layers, registries, volumes, networking, namespaces, cgroups, Dockerfiles.
-3. LoadBalancers
+3. LoadBalancers, ingress, HAProxy
 4. Cloud fundamentals — (AWS/Azure/GCP) compute, IAM, networking, storage, load balancers.
 5. Git — branching, merge/rebase, conflicts, tags, SSH keys, pull requests.
+6. PostFix Mail Server
+7. 
