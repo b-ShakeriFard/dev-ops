@@ -6,6 +6,6 @@
 4. Kubernetes - Core Concepts, Pod, Workloads, Service, Storage, Configs, Security, etc.
 5. Git — branching, merge/rebase, conflicts, tags, SSH keys, pull requests.
 6. CI/CD — pipelines, runners, artifacts, environments, secrets, deployment strategies.
-7. Infrastructure as Code / Automation — Ansible first; Terraform is highly beneficial.
-8. Cloud fundamentals — at least one of AWS/Azure/GCP: compute, IAM, networking, storage, load balancers.
+7. Infrastructure as Code / Automation — Ansible & Terraform.
+8. Cloud fundamentals — (AWS/Azure/GCP) compute, IAM, networking, storage, load balancers.
 9. Observability — Prometheus, Grafana, logs, metrics, alerts, basic tracing.
