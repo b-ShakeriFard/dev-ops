@@ -1,0 +1,36 @@
+# Traefik Lab 01
+# Helm Chart: 42.3.1
+# Traefik: v3.7.17
+# Traefik Lab 01
+# Chart version: 42.3.1
+
+deployment:
+  replicas: 1
+
+service:
+  spec:
+    type: NodePort
+
+ports:
+  web:
+    nodePort: 30080
+
+  websecure:
+    nodePort: 30443
+
+api:
+  dashboard: true
+  insecure: false
+
+ingressRoute:
+  dashboard:
+    enabled: true
+    entryPoints:
+      - traefik
+    matchRule: "PathPrefix(`/dashboard`) || PathPrefix(`/api`)"
+
+providers:
+  kubernetesIngress:
+    enabled: true
+  kubernetesCRD:
+    enabled: true
